@@ -1,6 +1,6 @@
 # LaTeX Application Template
 
-A modular LaTeX template for job applications. The entire set of documents is driven by a single configuration file — for each new application you only need to edit `_ConfigDetails.tex`. Use `_Compile.bat` to compile all files on Windows.
+A modular LaTeX template for job applications. The entire set of documents is driven by a single configuration file. For each new application you only need to edit `_ConfigDetails.tex`. Use `_Compile.bat` to compile all files on Windows.
 
 ## Previews
  
@@ -15,7 +15,7 @@ A modular LaTeX template for job applications. The entire set of documents is dr
 
 | File | Output |
 |---|---|
-| `_ConfigDetails.tex` | Configuration only — not compiled directly |
+| `_ConfigDetails.tex` | Configuration only - not compiled directly |
 | `00_Cover_Letter.tex` | Cover letter with gradient header and margin labels |
 | `01_Cover.tex` | Cover / title page with sidebar and profile photo |
 | `02_Curriculum_Vitae.tex` | Two-column CV with coloured sidebar |
@@ -69,12 +69,12 @@ Images are scaled to fill the card width while preserving aspect ratio. Landscap
 |---|---|---|
 | `\ApplicationLanguage` | `ger` / `eng` | Switches all static labels and selects `\applicationcontentger` or `\applicationcontenteng` |
 | `\Fonttype` | `h` / `c` | Helvetica (sans) or CMU Sans Serif |
-| `\Fontsize` | `9pt` / `10pt` / `11pt` | Base font size — also affects spacing compensation in the cover letter |
+| `\Fontsize` | `9pt` / `10pt` / `11pt` | Base font size - also affects spacing compensation in the cover letter |
 | `\colorway` | `green` / `blue` | Selects one of the two predefined colour palettes |
 
 ### Colours
 
-Eight RGB `\def`s define the two palettes. Edit to taste — `\definecolor` is called in each document after `xcolor` is loaded, so there is no load-order conflict.
+Eight RGB `\def`s define the two palettes. Edit to taste - `\definecolor` is called in each document after `xcolor` is loaded, so there is no load-order conflict.
 
 ```latex
 \def\highlightcolorgreenRGB{0,150, 80}
@@ -112,7 +112,7 @@ Eight RGB `\def`s define the two palettes. Edit to taste — `\definecolor` is c
 
 The template uses standard CTAN packages. Install a full TeX Live or MiKTeX distribution and all dependencies will be present.
 
-- `extarticle` (cover letter only — for sub-10pt base sizes)
+- `extarticle` (cover letter only - for sub-10pt base sizes)
 - `xcolor` with `[dvipsnames]`
 - `tikz` + libraries `calc`, `shadows`
 - `eso-pic`
@@ -130,4 +130,4 @@ Use `\langGerEn{german text}{english text}` anywhere in the document body. The a
 
 ## License
 
-MIT — use freely, attribution appreciated but not required.
+MIT - use freely, attribution appreciated but not required.
