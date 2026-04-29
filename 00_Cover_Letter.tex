@@ -1,0 +1,159 @@
+% COVER LETTER
+
+% =======================================================================
+% PACKAGES
+% =======================================================================
+% Configuration first — \Fontsize (and all other \defs) must be visible
+% before \documentclass so the class option expands correctly.
+% _ConfigDetails contains only \def / \newcommand, so no package is needed
+% at this point.
+\input{_ConfigDetails.tex}
+\documentclass[\Fontsize,a4paper]{extarticle}
+\usepackage[dvipsnames]{xcolor}
+% Define colors using the RGB \defs from _ConfigDetails.tex.
+% xcolor expands the spec argument, so passing a \def macro works fine.
+\definecolor{highlightcolorgreen}{RGB}{\highlightcolorgreenRGB}
+\definecolor{gradientstartgreen} {RGB}{\gradientstartgreenRGB}
+\definecolor{gradientendgreen}   {RGB}{\gradientendgreenRGB}
+\definecolor{sidebgcolorgreen}   {RGB}{\sidebgcolorgreenRGB}
+\definecolor{highlightcolorblue}{RGB}{\highlightcolorblueRGB}
+\definecolor{gradientstartblue} {RGB}{\gradientstartblueRGB}
+\definecolor{gradientendblue}   {RGB}{\gradientendblueRGB}
+\definecolor{sidebgcolorblue}   {RGB}{\sidebgcolorblueRGB}
+% Dynamic Fontsize Checker ----------------------------------------------
+\def\fsnine{9pt}\def\fsten{10pt}\def\fseleven{11pt}%
+% Colorway and Image Logic ----------------------------------------------
+\usepackage{tikz}
+\usepackage{eso-pic}
+\setcolorway{\colorway}
+% Hyperlink Setup -------------------------------------------------------
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=highlightcolor,
+    urlcolor=cyan,
+    pdfborder={0 0 0}
+}
+% Encoding, Fonts, Paper Design -----------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{fontawesome}
+\usepackage{etoolbox}
+\ifdefstring{\Fonttype}{h}{
+    \usepackage{helvet}
+    \renewcommand{\familydefault}{\sfdefault}
+}{
+    \usepackage{lmodern}
+    \renewcommand{\familydefault}{\sfdefault}
+}
+\usepackage[left=2.5cm,right=2.5cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{parskip}
+% Dynamic Parskip -------------------------------------------------------
+\ifx\Fontsize\fsnine
+    \setlength{\parskip}{7pt}
+\else\ifx\Fontsize\fsten
+    \setlength{\parskip}{8pt}
+\else\ifx\Fontsize\fseleven
+    \setlength{\parskip}{9pt}
+\fi\fi\fi
+\setlength{\parindent}{0pt}
+\renewcommand{\familydefault}{\sfdefault}
+% Margin Labels ---------------------------------------------------------
+\makeatletter
+\newcommand{\marginlabel}[1]{%
+    \settowidth{\@tempdima}{\small\sffamily #1}%
+    \makebox[0pt]{%
+        \begin{tikzpicture}[overlay]%
+            \node[anchor=center, rotate=90,
+                  font=\small\sffamily,
+                  text=highlightcolor,
+                  inner sep=0pt]
+            at (-0.7cm, -0.5\@tempdima +0.2cm) {#1};
+        \end{tikzpicture}%
+    }%
+    % Dynamic Fontsize Compensation
+    \ifx\Fontsize\fsnine
+        \vspace{-17pt}%
+    \else\ifx\Fontsize\fsten
+        \vspace{-19pt}%
+    \else\ifx\Fontsize\fseleven
+        \vspace{-21pt}%
+    \fi\fi\fi
+    \par\noindent\ignorespaces%
+}
+\makeatother
+% =======================================================================
+
+% =======================================================================
+% DOCUMENT
+% =======================================================================
+\begin{document}
+\thispagestyle{empty}
+% Header ----------------------------------------------------------------
+% Sender aligned with Date
+\def\setyshift{
+    \ifx\Fontsize\fsnine -3.9cm
+    \else\ifx\Fontsize\fsten -4.15cm
+    \else\ifx\Fontsize\fseleven -4.25cm
+    \fi\fi\fi
+}
+% First page has gradient with adress
+\AddToShipoutPictureBG*{
+    \begin{tikzpicture}[remember picture,overlay]
+        \shade[left color=gradientstart, right color=gradientend]
+        (current page.north west) rectangle ([yshift=\setyshift]current page.north east);
+        \node[anchor=north east, text=white, align=right, inner sep=0pt] 
+              at ([xshift=-2.35cm, yshift=-0.9cm]current page.north east) {
+            \begin{tabular}{@{}c l@{}}
+                & \textbf{\myname} \\[1mm]
+                {\small \faUniversity} & {\small \textit{\mydegree}} \\[1mm]
+                \faHome    & \mystreet \\
+                           & \mycity \\[1mm]
+                \faMobile  & \myphone \\
+                \faEnvelope & \href{mailto:\myemail}{\color{white}\myemail} \\
+                & \\ [\ifx\Fontsize\fsnine
+                        3.2cm
+                      \else\ifx\Fontsize\fsten
+                        3.15cm
+                      \else\ifx\Fontsize\fseleven
+                        3cm
+                      \fi\fi\fi]
+                & \color{black} \mydate
+            \end{tabular}
+        };
+    \end{tikzpicture}
+}
+% Every page has bottom bar
+\AddToShipoutPictureBG{
+    \begin{tikzpicture}[remember picture,overlay]
+        \draw[highlightcolor, line width=0.4pt]
+        ([xshift=2.5cm,yshift=1.8cm]current page.south west) --
+        ([xshift=-2.5cm,yshift=1.8cm]current page.south east);
+    \end{tikzpicture}
+}
+% Recipient
+\vspace*{\ifx\Fontsize\fsnine 1.9cm%
+         \else\ifx\Fontsize\fsten 1.85cm%
+         \else\ifx\Fontsize\fseleven 1.7cm%
+         \fi\fi\fi}
+\textbf{\recipientname}\\[1mm]
+\recipientorg \\
+\recipientdept\\[1mm]
+\recipientstreet \\
+\recipientcity
+\par 
+\vspace{1cm}
+\textbf{\jobcall \phantom{} \jobtitle \phantom{} (\jobref)}
+
+\makebox[\textwidth][l]{\hspace*{-2.5cm}\color{highlightcolor}\rule{0.8815\paperwidth}{0.5pt}}
+
+\vspace{0.2cm}
+
+\langGerEn{\applicationcontentger}{\applicationcontenteng}
+
+\includegraphics[width=4cm]{\mysignature}\\
+\myname
+
+\end{document}
+% =======================================================================

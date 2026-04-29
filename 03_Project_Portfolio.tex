@@ -1,0 +1,231 @@
+% Portfolio
+
+% =======================================================================
+% CONFIGURATION
+% =======================================================================
+\documentclass[a4paper,12pt]{article}
+\usepackage[dvipsnames]{xcolor}
+\input{_ConfigDetails.tex}
+\definecolor{highlightcolorgreen}{RGB}{\highlightcolorgreenRGB}
+\definecolor{gradientstartgreen} {RGB}{\gradientstartgreenRGB}
+\definecolor{gradientendgreen}   {RGB}{\gradientendgreenRGB}
+\definecolor{sidebgcolorgreen}   {RGB}{\sidebgcolorgreenRGB}
+\definecolor{highlightcolorblue}{RGB}{\highlightcolorblueRGB}
+\definecolor{gradientstartblue} {RGB}{\gradientstartblueRGB}
+\definecolor{gradientendblue}   {RGB}{\gradientendblueRGB}
+\definecolor{sidebgcolorblue}   {RGB}{\sidebgcolorblueRGB}
+\setcolorway{\colorway}
+% =======================================================================
+
+% =======================================================================
+% PACKAGES & SETUP
+% =======================================================================
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{etoolbox}
+% Font Choice
+\ifdefstring{\Fonttype}{h}{
+    \usepackage{helvet}
+    \renewcommand{\familydefault}{\sfdefault}
+}{
+    \usepackage{lmodern}
+    \renewcommand{\familydefault}{\sfdefault}
+}
+% Geometry
+\usepackage[a4paper,
+            left=11mm, right=8mm,
+            top=9mm,  bottom=5mm,
+            noheadfoot]{geometry}
+% Graphics & Layout
+\usepackage{tikz}
+\usetikzlibrary{calc, shadows}
+\usepackage{eso-pic}
+\usepackage[most]{tcolorbox}
+\usepackage{array, calc, graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fontawesome5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\pagestyle{empty}
+% Row counter for equal-height groups
+\newcounter{projrow}
+% =======================================================================
+
+% =======================================================================
+% BACKGROUND
+% =======================================================================
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[opacity=0.7] at (current page.center)
+      {\includegraphics[width=\paperwidth]{\bgpath}};
+  \end{tikzpicture}%
+}
+% =======================================================================
+
+% =======================================================================
+% TCOLORBOX STYLES
+% =======================================================================
+\tcbset{
+  projcard/.style={
+    enhanced, colback=white, colframe=white, arc=1mm, boxrule=0pt,
+    left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+    drop shadow={opacity=0.08, shadow xshift=0.4mm, shadow yshift=-0.4mm},
+    before skip=0pt, after skip=0pt
+  }
+}
+% =======================================================================
+
+% =======================================================================
+% MACROS
+% =======================================================================
+% Image height lengths per grid section
+\newlength{\projimgH}
+
+% Single project card: {title}{url-or-empty}{description}{image-path}
+\newcommand{\projcard}[4]{%
+  \begin{tcolorbox}[projcard, equal height group=projrow\theprojrow]
+    {\small\bfseries\color{highlightcolor}%
+      \ifx\relax#2\relax#1\else\href{#2}{#1}\fi}\par
+    \vspace{3pt}
+    {\footnotesize #3}\par
+    \vfill                      
+    \noindent
+    \begin{minipage}[c][\projimgH][c]{\linewidth}
+      \centering
+      \includegraphics[width=\linewidth, height=\projimgH,
+        keepaspectratio=true]{#4}
+    \end{minipage}
+  \end{tcolorbox}%
+}
+
+% Two-column row of project cards
+% Usage: \projRowTwo{t1}{u1}{d1}{i1}{t2}{u2}{d2}{i2}
+\newcommand{\projRowTwo}[8]{%
+  \noindent
+  \begin{minipage}[t]{0.4955\linewidth}
+     \vspace{0pt}
+    \projcard{#1}{#2}{#3}{#4}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.4955\linewidth}
+     \vspace{0pt}
+    \projcard{#5}{#6}{#7}{#8}
+  \end{minipage}%
+}
+% =======================================================================
+
+\begin{document}
+
+% =======================================================================
+% HEADER
+% =======================================================================
+\begin{minipage}[b]{0.44\linewidth}
+  {\fontsize{32}{40}\selectfont\color{highlightcolor} Portfolio}\\[2pt]
+  {\color{highlightcolor}\href{\myGitHub}{\faGithub}}\;
+  {\footnotesize\color{gray}}
+  {\color{gray!50}\hspace{-2mm}|}
+  {\footnotesize\color{gray}\myname}
+\end{minipage}%
+\hfill
+\begin{minipage}[b]{0.53\linewidth}
+  \raggedright
+  {\footnotesize\color{gray!80}
+  \langGerEn{
+    Im Folgenden finden Sie kurze Beschreibungen ausgewählter Projekte aus
+    meinen Studien sowie eigenen Arbeiten.
+    Einige davon sind auf GitHub verfügbar (verlinkt).}{
+    Below you can find brief descriptions of selected projects from my studies
+    as well as some personal projects. A subset of these are released on my GitHub pages (hyperlinked).}}
+\end{minipage}
+\hfill
+\vspace{2pt}
+{\color{gray!30}\rule{\linewidth}{2pt}}
+\vspace{4pt}
+
+% =======================================================================
+% GRID 1 — 2 wide cards
+% Each \projRowTwo takes: title1, url1, desc1, img1, title2, url2, desc2, img2
+% Leave url empty ({}) to render title without hyperlink.
+% =======================================================================
+\stepcounter{projrow}
+\setlength{\projimgH}{4.8cm}
+\projRowTwo
+  {\langGerEn{Projekttitel 1}{Project Title 1}}
+  {https://github.com/YOUR\_USERNAME/project-1}
+  {\langGerEn{Deutsche Projektbeschreibung. Methoden, Tools und Ergebnis.}{English project description. Methods, tools and outcome.}}
+  {Images/Portfolio_Project1.png}
+  %
+  {\langGerEn{Projekttitel 2}{Project Title 2}}
+  {https://github.com/YOUR\_USERNAME/project-2}
+  {\langGerEn{Deutsche Projektbeschreibung. Methoden, Tools und Ergebnis.}{English project description. Methods, tools and outcome.}}
+  {Images/Portfolio_Project2.png}
+
+\vspace{5pt}
+
+% =======================================================================
+% GRID 2 — 3 medium cards
+% =======================================================================
+\stepcounter{projrow}
+\setlength{\projimgH}{4.0cm}
+\noindent
+\begin{minipage}[t]{0.328\linewidth}
+  \vspace{0pt}
+  \projcard
+    {\langGerEn{Projekttitel 3}{Project Title 3}}
+    {https://github.com/YOUR\_USERNAME/project-3}
+    {\langGerEn{Deutsche Projektbeschreibung.}{English project description.}}
+    {Images/Portfolio_Project3.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.328\linewidth}
+  \vspace{0pt}
+  \projcard
+    {\langGerEn{Projekttitel 4}{Project Title 4}}
+    {https://github.com/YOUR\_USERNAME/project-4}
+    {\langGerEn{Deutsche Projektbeschreibung.}{English project description.}}
+    {Images/Portfolio_Project4.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.328\linewidth}
+  \vspace{0pt}
+  \projcard
+    {\langGerEn{Projekttitel 5}{Project Title 5}}
+    {https://github.com/YOUR\_USERNAME/project-5}
+    {\langGerEn{Deutsche Projektbeschreibung.}{English project description.}}
+    {Images/Portfolio_Project5.png}
+\end{minipage}
+
+\vspace{5pt}
+
+% =======================================================================
+% GRID 3 — 3 medium cards
+% Add or remove grids / cards as needed. Remember to \stepcounter{projrow}
+% for each new equal-height group.
+% =======================================================================
+\stepcounter{projrow}
+\setlength{\projimgH}{3.8cm}
+\noindent
+\begin{minipage}[t]{0.328\linewidth}
+    \vspace{0pt}
+  \projcard
+    {\langGerEn{Projekttitel 6}{Project Title 6}}
+    {https://github.com/YOUR\_USERNAME/project-6}
+    {\langGerEn{Deutsche Projektbeschreibung.}{English project description.}}
+    {Images/Portfolio_Project6.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.328\linewidth}
+     \vspace{0pt}
+  \projcard
+    {\langGerEn{Projekttitel 7}{Project Title 7}}
+    {https://github.com/YOUR\_USERNAME/project-7}
+    {\langGerEn{Deutsche Projektbeschreibung.}{English project description.}}
+    {Images/Portfolio_Project7.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.328\linewidth}
+     \vspace{0pt}
+  \projcard
+    {\langGerEn{Projekttitel 8}{Project Title 8}}
+    {https://github.com/YOUR\_USERNAME/project-8}
+    {\langGerEn{Deutsche Projektbeschreibung.}{English project description.}}
+    {Images/Portfolio_Project8.png}
+\end{minipage}
+\end{document}
+% =======================================================================

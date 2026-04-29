@@ -1,0 +1,316 @@
+% =======================================================================
+% CONFIGURATION
+% =======================================================================
+\documentclass[a4paper,12pt]{article}
+\usepackage[dvipsnames]{xcolor}
+\input{_ConfigDetails.tex}
+\definecolor{highlightcolorgreen}{RGB}{\highlightcolorgreenRGB}
+\definecolor{gradientstartgreen} {RGB}{\gradientstartgreenRGB}
+\definecolor{gradientendgreen}   {RGB}{\gradientendgreenRGB}
+\definecolor{sidebgcolorgreen}   {RGB}{\sidebgcolorgreenRGB}
+\definecolor{highlightcolorblue}{RGB}{\highlightcolorblueRGB}
+\definecolor{gradientstartblue} {RGB}{\gradientstartblueRGB}
+\definecolor{gradientendblue}   {RGB}{\gradientendblueRGB}
+\definecolor{sidebgcolorblue}   {RGB}{\sidebgcolorblueRGB}
+\setcolorway{\colorway}
+% =======================================================================
+
+% =======================================================================
+% PACKAGES & SETUP
+% =======================================================================
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{etoolbox}
+% Font Choice
+\ifdefstring{\Fonttype}{h}{
+    \usepackage{helvet}
+    \renewcommand{\familydefault}{\sfdefault}
+}{
+    \usepackage{lmodern}
+    \renewcommand{\familydefault}{\sfdefault}
+}
+% Geometry for the page margins
+\usepackage[a4paper, 
+            left=75mm, right=6mm, 
+            top=4mm, bottom=5mm, 
+            noheadfoot]{geometry}
+% Graphics
+\usepackage{tikz}
+\usetikzlibrary{calc, shadows}
+\usepackage{eso-pic}
+\usepackage[most]{tcolorbox}
+\usepackage{array, calc, graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fontawesome5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\pagestyle{empty}
+% Sidebar and Main Columns Widths
+\newlength{\sideW}   \setlength{\sideW}{71mm}
+\newlength{\sidePad} \setlength{\sidePad}{5mm}
+\newlength{\sideIn}  \setlength{\sideIn}{\sideW - 2\sidePad}
+\newlength{\dateW}   \setlength{\dateW}{24mm}
+\newlength{\entryW}  \setlength{\entryW}{\textwidth-\dateW-14mm} 
+\newlength{\slabW}   \setlength{\slabW}{22mm}
+\newlength{\svalW}   \setlength{\svalW}{\sideIn-\slabW-3mm} 
+% =======================================================================
+
+% =======================================================================
+% MACROS (Sideheading & Row)
+% =======================================================================
+% Sidebar Headings
+\newcommand{\sheading}[1]{%
+  \par\addvspace{15pt}
+  {\bfseries\small\color{white}#1}\par
+  \vspace{-7pt}
+  {\color{white!70!sidebgcolor}\rule{\sideIn}{0.5pt}}\par
+  \vspace{-1pt}
+}
+% Sidebar Entries
+\newcommand{\srow}[2]{%
+  {\footnotesize\color{white!90!sidebgcolor}#1} &
+  {\footnotesize\color{white}#2}\\
+}
+\newcommand{\boxsec}[1]{%
+  \vspace{10pt}
+  {\Large\bfseries\color{highlightcolor} #1}\par
+  \vspace{-3pt}%
+  {\color{gray!30}\rule{\linewidth}{1pt}}\par
+  \vspace{4pt}%
+}
+% =======================================================================
+
+% =======================================================================
+% LEFT SIDEBAR CONTENT
+% =======================================================================
+\newcommand{\renderSidebar}{%
+  \begin{minipage}[t][\paperheight]{\sideW}
+    \hspace{\sidePad}%
+    \begin{minipage}[t]{\sideIn}
+      \vspace{18.75mm}
+\sheading{\langGerEn{Persönliche Daten}{Contact Details}} % -------------
+\renewcommand{\arraystretch}{0.7}
+\begin{tabular}{@{}p{\slabW}@{\hspace{3mm}}p{\svalW}@{}}
+\srow{Name}{\myname}
+\srow{\langGerEn{Adresse}{Address}}{\mystreet\newline \mycity\newline \mystate}
+\srow{\langGerEn{Nationalität}{Nationality}}{\mynation}
+\srow{\langGerEn{Telefon}{Telephone}}{\myphone}
+\srow{E-Mail}{\href{mailto:\myemail}{\scriptsize\color{white}\myemail}}
+\srow{Links}{%
+\href{\myLinkedIn}{\color{white}\faLinkedin}\quad
+\href{\myGitHub}{\color{white}\faGithub}}
+\end{tabular}
+\sheading{\langGerEn{Programmiersprachen}{Programming Languages}} % -----
+\begin{tabular}{@{}p{\slabW}@{\hspace{3mm}}p{\svalW}@{}}
+\srow{\langGerEn{Fortgeschritten}{Proficient}}{Language A, Language B}
+\srow{\langGerEn{Anwender}{User Skills}}{Language C, Language D}
+\srow{\langGerEn{Grundlagen}{Basics}}{Language E}
+\end{tabular}
+\sheading{\langGerEn{EDV-Anwendungen}{IT Skills}} % ---------------------
+\begin{tabular}{@{}p{\slabW}@{\hspace{3mm}}p{\svalW}@{}}
+\srow{\langGerEn{Fortgeschritten}{Proficient}}{Tool A, Tool B}
+\srow{\langGerEn{Grundlagen}{Basics}}{Tool C, Tool D}
+\end{tabular}
+\sheading{Sprachen} % ---------------------------------------------------
+\begin{tabular}{@{}p{\slabW}@{\hspace{3mm}}p{\svalW}@{}}
+\srow{\langGerEn{Muttersprache}{Native}}{\langGerEn{Deutsch}{German}}
+\srow{\langGerEn{Fließend}{Fluent}}{\langGerEn{Englisch}{English}}
+\srow{\langGerEn{Anfänger}{Basics}}{\langGerEn{Weitere Sprache}{Other Language}}
+\end{tabular}
+\sheading{\langGerEn{Weitere Kenntnisse}{Further Skills and Interests}} % 
+\begin{tabular}{@{}p{\slabW}@{\hspace{3mm}}p{\svalW}@{}}
+\srow{\langGerEn{Methoden}{Methods}}{\langGerEn{Methode A, Methode B}{Method A, Method B}}
+\srow{\langGerEn{Interessen}{Interests}}{\langGerEn{Interesse A, Interesse B}{Interest A, Interest B}}
+\end{tabular}
+\sheading{\langGerEn{Freiwillige Arbeit}{Voluntary Work}} % -------------
+\begin{tabular}{@{}p{\slabW}@{\hspace{3mm}}p{\svalW}@{}}
+\srow{MM/YY -- MM/YY}{\langGerEn{Beschreibung freiwilliger Tätigkeit}{Description of voluntary work}}
+\end{tabular}
+\sheading{Soft Skills} % ------------------------------------------------
+{\footnotesize\color{white}
+\langGerEn{Soft Skill A, Soft Skill B\newline Soft Skill C}{Soft Skill A, Soft Skill B\newline Soft Skill C}}
+    \end{minipage}
+  \end{minipage}
+}
+% =======================================================================
+
+% =======================================================================
+% Side and Columns Styling
+% =======================================================================
+% Background and Sidebar Logic
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[opacity=0.7] at (current page.center) {\includegraphics[width=\paperwidth]{\bgpath}};
+    \shade[top color=gradientstart, bottom color=gradientend]
+      (current page.north west)
+      rectangle ([xshift=\sideW]current page.south west);
+    \node [anchor=north west, inner sep=0pt] at (current page.north west) {\renderSidebar};
+  \end{tikzpicture}%
+}
+% Style Settings
+\tcbset{
+  entrycard/.style={
+    enhanced, colback=white, colframe=white, arc=1mm, boxrule=0pt,
+    left=2mm, right=2mm, top=2mm, bottom=2mm,
+    drop shadow={opacity=0.08, shadow xshift=0.4mm, shadow yshift=-0.4mm},
+    before skip=4pt, after skip=4pt
+  }
+}
+% Types of Main Section Table Entries
+% jobEntrySix: 3x2 Style — date, title, org, field label, description
+\newcommand{\jobEntrySix}[5]{%
+  \begin{tcolorbox}[entrycard]
+  \noindent
+  \begin{minipage}[t]{\dateW}
+    \raggedright
+    {\footnotesize\bfseries #1}\\[1pt]
+    {\footnotesize\phantom{X}}\\[2pt]
+    \hfill{\scriptsize\color{gray!70}#4}%
+  \end{minipage}%
+  \hspace{2mm}%
+  \begin{minipage}[t]{\entryW}
+    {\small\bfseries #2}\\[1pt]
+    {\footnotesize #3}\\[2pt]
+    {\footnotesize #5}%
+  \end{minipage}
+  \end{tcolorbox}
+}
+% jobEntryFour: 2x2 Style — date, title, org
+\newcommand{\jobEntryFour}[3]{%
+  \begin{tcolorbox}[entrycard]
+  \noindent
+  \begin{minipage}[t]{\dateW}
+    \raggedright
+    {\footnotesize\bfseries #1}\\[1pt]
+    {\footnotesize\phantom{X}}
+  \end{minipage}%
+  \hspace{2mm}%
+  \begin{minipage}[t]{\entryW}
+    {\small\bfseries #2}\\[1pt]
+    {\footnotesize #3}
+  \end{minipage}
+  \end{tcolorbox}
+}
+% studyEntrySix / studyEntryFour — identical structure, separate for semantic clarity
+\newcommand{\studyEntrySix}[5]{%
+  \begin{tcolorbox}[entrycard]
+  \noindent
+  \begin{minipage}[t]{\dateW}
+    \raggedright
+    {\footnotesize\bfseries #1}\\[1pt]
+    {\footnotesize\phantom{X}}\\[2pt]
+    \hfill{\scriptsize\color{gray!70}#4}%
+  \end{minipage}%
+  \hspace{2mm}%
+  \begin{minipage}[t]{\entryW}
+    {\small\bfseries #2}\\[1pt]
+    {\footnotesize #3}\\[2pt]
+    {\footnotesize #5}%
+  \end{minipage}
+  \end{tcolorbox}
+}
+\newcommand{\studyEntryFour}[3]{%
+  \begin{tcolorbox}[entrycard]
+  \noindent
+  \begin{minipage}[t]{\dateW}
+    \raggedright
+    {\footnotesize\bfseries #1}\\[1pt]
+    {\footnotesize\phantom{X}}
+  \end{minipage}%
+  \hspace{2mm}%
+  \begin{minipage}[t]{\entryW}
+    {\small\bfseries #2}\\[1pt]
+    {\footnotesize #3}
+  \end{minipage}
+  \end{tcolorbox}
+}
+% =======================================================================
+
+% =======================================================================
+% JOB AND STUDIES SECTION
+% =======================================================================
+\begin{document}
+% Title Section
+\noindent
+\begin{minipage}[b]{0.55\linewidth}
+    {\fontsize{32}{40}\selectfont\color{gray} \curriculumvitaename}
+\end{minipage}%
+\hfill
+\hspace{12mm}
+{\color{highlightcolor}\rule{0.5pt}{35pt}}
+\hspace{-7mm}
+\begin{minipage}[b]{0.35\linewidth}
+    \raggedleft
+    \includegraphics[height=1.1cm]{\signaturepath}\\[-1mm]
+    {\small\color{gray} \myname}
+\end{minipage}
+\vspace{1pt}
+{\color{gray!30}\rule{\linewidth}{2pt}}
+
+% JOBS ------------------------------------------------------------------
+\langGerEn{
+\boxsec{Beruf}
+\jobEntrySix{MM/YY -- MM/YY}
+          {Berufsbezeichnung}
+          {Arbeitgeber, Ort}
+          {Aufgabenbereich:}
+          {Beschreibung der Tätigkeit und Verantwortlichkeiten}
+\jobEntrySix{MM/YY -- MM/YY}
+          {Berufsbezeichnung}
+          {Arbeitgeber, Ort}
+          {Aufgabenbereich:}
+          {Beschreibung der Tätigkeit und Verantwortlichkeiten}
+\jobEntryFour{MM/YY -- MM/YY}
+          {Berufsbezeichnung}
+          {Arbeitgeber, Ort}
+% STUDIES ---------------------------------------------------------------
+\boxsec{Studium}
+\studyEntrySix{MM/YY -- MM/YY}
+        {Abschluss Studiengang}
+        {Universität, Abschlussnote X,X}
+        {Abschlussarbeit:}
+        {Titel der Abschlussarbeit, Note X,X}
+\studyEntrySix{MM/YY -- MM/YY}
+        {Abschluss Studiengang}
+        {Universität, Abschlussnote X,X}
+        {Abschlussarbeit:}
+        {Titel der Abschlussarbeit, Note X,X}
+\studyEntryFour{MM/YY -- MM/YY}
+        {Allgemeine Hochschulreife (Abitur)}
+        {Schule, Abschlussnote X,X}
+}
+{
+% JOBS ------------------------------------------------------------------
+\boxsec{Work Experience}
+\jobEntrySix{MM/YY -- MM/YY}
+          {Job Title}
+          {Employer, Location}
+          {Scope of duties:}
+          {Description of duties and responsibilities}
+\jobEntrySix{MM/YY -- MM/YY}
+          {Job Title}
+          {Employer, Location}
+          {Scope of duties:}
+          {Description of duties and responsibilities}
+\jobEntryFour{MM/YY -- MM/YY}
+          {Job Title}
+          {Employer, Location}
+% STUDIES ---------------------------------------------------------------
+\boxsec{Education}
+\studyEntrySix{MM/YY -- MM/YY}
+        {Degree Programme}
+        {University, Final Grade X.X}
+        {Thesis:}
+        {Thesis Title, Grade X.X}
+\studyEntrySix{MM/YY -- MM/YY}
+        {Degree Programme}
+        {University, Final Grade X.X}
+        {Thesis:}
+        {Thesis Title, Grade X.X}
+\studyEntryFour{MM/YY -- MM/YY}
+        {General University Entrance Qualification}
+        {School, Final Grade X.X}
+}
+\end{document}
+% =======================================================================

@@ -1,0 +1,189 @@
+% =======================================================================
+% CONFIGURATION
+% =======================================================================
+\documentclass[a4paper,11pt]{article}
+\usepackage[dvipsnames]{xcolor}
+\input{_ConfigDetails.tex}
+\definecolor{highlightcolorgreen}{RGB}{\highlightcolorgreenRGB}
+\definecolor{gradientstartgreen} {RGB}{\gradientstartgreenRGB}
+\definecolor{gradientendgreen}   {RGB}{\gradientendgreenRGB}
+\definecolor{sidebgcolorgreen}   {RGB}{\sidebgcolorgreenRGB}
+\definecolor{highlightcolorblue}{RGB}{\highlightcolorblueRGB}
+\definecolor{gradientstartblue} {RGB}{\gradientstartblueRGB}
+\definecolor{gradientendblue}   {RGB}{\gradientendblueRGB}
+\definecolor{sidebgcolorblue}   {RGB}{\sidebgcolorblueRGB}
+\setcolorway{\colorway}
+%
+\def\imgscale{60mm}    % image height
+\def\imgxshift{-29mm}  % horizontal offset
+\def\imgyshift{29mm}   % vertical offset
+%
+\def\textTopGap{20mm}  
+\def\sigGap{15mm}      
+% =======================================================================
+
+% =======================================================================
+% PACKAGES & SETUP
+% =======================================================================
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{etoolbox}
+
+% Font Choice
+\ifdefstring{\Fonttype}{h}{
+    \usepackage{helvet}
+    \renewcommand{\familydefault}{\sfdefault}
+}{
+    \usepackage{lmodern}
+    \renewcommand{\familydefault}{\sfdefault}
+}
+% Geometry
+\usepackage[a4paper,
+            left=75mm, right=9mm,
+            top=4mm, bottom=5mm,
+            noheadfoot]{geometry} 
+% Graphics
+\usepackage{tikz}
+\usetikzlibrary{calc, shadows}
+\usepackage{eso-pic}
+\usepackage[most]{tcolorbox}
+\usepackage{array, calc, graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fontawesome5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\pagestyle{empty}
+% Sidebar dimensions
+\newlength{\sideW}   \setlength{\sideW}{71mm}
+\newlength{\sidePad} \setlength{\sidePad}{5mm}
+\newlength{\sideIn}  \setlength{\sideIn}{\sideW - 2\sidePad}
+\newlength{\slabW}   \setlength{\slabW}{22mm} 
+\newlength{\svalW}   \setlength{\svalW}{\sideIn-\slabW-3mm}
+% =======================================================================
+
+% =======================================================================
+% MACROS
+% =======================================================================
+\newcommand{\sheading}[1]{%
+  \par\addvspace{15pt}
+  {\bfseries\small\color{white}#1}\par
+  \vspace{-7pt}
+  {\color{white!70!sidebgcolor}\rule{\sideIn}{0.5pt}}\par
+  \vspace{-1pt}
+}
+\newcommand{\srow}[2]{%
+  {\footnotesize\color{white!90!sidebgcolor}#1} &
+  {\footnotesize\color{white}#2}\\
+}
+% =======================================================================
+
+% =======================================================================
+% LEFT SIDEBAR CONTENT
+% =======================================================================
+\newcommand{\renderSidebar}{%
+  \begin{minipage}[t][\paperheight]{\sideW}
+    \hspace{\sidePad}%
+    \begin{minipage}[t]{\sideIn}
+      \vspace*{92mm}
+      \raggedright
+      {\large\bfseries\color{white}\myname}\par
+      \vspace{4pt}
+      {\large\color{white!90!sidebgcolor}%
+        \mydegreesidebar}\par
+      \vspace{8pt}
+      {\large\color{white}%
+        \mystreet\newline
+        \mycity}\par
+      \vspace{6pt}
+      {\large\color{white}\myphone}\par
+      \vspace{3pt}
+      {\large\color{white}%
+        \href{mailto:\myemail}{\myemail}}\par 
+    \end{minipage}
+  \end{minipage}
+}
+% =======================================================================
+
+% =======================================================================
+% BACKGROUND & SIDEBAR
+% =======================================================================
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[opacity=0.7] at (current page.center)
+      {\includegraphics[width=\paperwidth]{\bgpath}};
+    \shade[top color=gradientstart, bottom color=gradientend] 
+      (current page.north west)
+      rectangle ([xshift=\sideW]current page.south west);
+    \node [anchor=north west, inner sep=0pt] 
+      at (current page.north west) {\renderSidebar};
+  \end{tikzpicture}%
+}
+% =======================================================================
+
+% =======================================================================
+% COVER CONTENT
+% =======================================================================
+\begin{document}
+\noindent
+% --- Icons row (top right) ---------------------------------------------
+\raggedleft
+{\fontsize{18}{22}\selectfont\color{highlightcolor}%
+  \href{mailto:\myemail}{\faEnvelope}%
+  \hspace{5mm}%
+  \href{\myLinkedIn}{\faLinkedin}%
+  \hspace{5mm}%
+  \href{\myGitHub}{\faGithub}%
+}\par
+\vspace{2pt}
+{\color{gray!30}\rule{\linewidth}{0.8pt}}\par
+
+\vspace{\textTopGap}
+
+\raggedright
+{\fontsize{24}{28}\selectfont\color{black!85} \supplementsname}\par
+\vspace{9pt}
+{\fontsize{16}{20}\selectfont\color{gray!65} \jobtitle}\par
+\vspace{4pt}
+{\color{gray!30}\rule{\linewidth}{0.8pt}}\par
+\vspace{4pt}\vspace{3mm}
+{\fontsize{16}{20}\selectfont\color{gray!55} \recipientorg}\par
+
+\vspace{10mm}
+
+% --- Main Content: Documents List -------------------------------------
+% Add, remove or rename rows to match your actual enclosures.
+\langGerEn{
+{In antichronologischer Reihenfolge:} \par 
+
+\vspace{8mm}
+
+{\normalsize\color{darkgray}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{@{} r p{40mm} p{60mm} @{}}
+    \textbf{1.} & Dokument A & Ergänzende Beschreibung \\
+    \textbf{2.} & Dokument B & Ergänzende Beschreibung \\
+    \textbf{3.} & Dokument C & Ergänzende Beschreibung \\
+\end{tabular}
+}
+}
+{
+{\normalsize\color{darkgray}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{@{} r p{40mm} p{60mm} @{}}
+    \textbf{1.} & Document A & Supplementary description \\
+    \textbf{2.} & Document B & Supplementary description \\
+    \textbf{3.} & Document C & Supplementary description \\
+\end{tabular}
+}
+}
+
+% --- Signature --------------------------------------------------------
+\vspace{\sigGap} 
+\raggedleft
+\includegraphics[height=1.1cm]{Images/Signature.png}\\[-1mm]
+{\small\color{gray} \myname}\\
+{\small\color{gray} \AppDate}\par
+
+\end{document}
+% =======================================================================

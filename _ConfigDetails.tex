@@ -1,0 +1,128 @@
+% =======================================================================
+% CONFIGURATION  —  edit only this file for each new application
+% =======================================================================
+\def\ApplicationLanguage{eng} % Options: ger, eng   Usage: \langGerEn{german}{english}
+\def\Fonttype{c}              % Options: h = Helvetica,  c = CMU Sans Serif
+\def\Fontsize{9pt}            % Options: 9pt, 10pt, 11pt
+\def\colorway{blue}          % Options: green, blue
+
+% Color values as plain \def — \definecolor is called in each document
+% after xcolor is loaded, using these macros as the spec argument.
+\def\highlightcolorgreenRGB{0,150, 80}
+\def\gradientstartgreenRGB {0,210, 80}
+\def\gradientendgreenRGB   {0,120, 60}
+\def\sidebgcolorgreenRGB   {0,140, 75}
+
+\def\highlightcolorblueRGB{0,100,190}
+\def\gradientstartblueRGB {0,140,230}
+\def\gradientendblueRGB   {0,110,170}
+\def\sidebgcolorblueRGB   {0,120,190}
+
+% --- Recipient ---------------------------------------------------------
+\def\recipientname  {Prof. Dr. Jane Doe}
+\def\recipientorg   {Example Organisation}
+\def\recipientdept  {Department of Examples}
+\def\recipientstreet{Examplestreet 1}
+\def\recipientcity  {12345 Example City}
+
+% --- Position ----------------------------------------------------------
+\def\refID   {\#00-00000}
+\def\jobtitle{Your Job Title Here}
+% =======================================================================
+
+% =======================================================================
+% APPLICATION TEXT German / English
+% =======================================================================
+\def\applicationcontentger{
+Sehr geehrte Frau Prof. Dr. Doe,\\
+Sehr geehrte Mitglieder der Auswahlkommission,
+
+\marginlabel{Motivation}
+Schreiben Sie hier Ihren deutschen Motivationstext. Nutzen Sie \texttt{\textbackslash marginlabel\{Abschnitt\}} für Randnotizen. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+\marginlabel{Kompetenzen}
+Beschreiben Sie hier Ihre Qualifikationen und Kompetenzen. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\marginlabel{Chance}
+Erläutern Sie hier, warum Sie die ideale Besetzung für diese Stelle sind. Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+Gerne möchte ich Sie in einem persönlichen Gespräch von meiner Eignung überzeugen.
+
+Mit freundlichen Grüßen,
+}
+
+%------------------------------------------------------------------------
+\def\applicationcontenteng{
+Dear Prof. Dr. Doe,\\
+Dear Members of the Selection Committee,
+
+\marginlabel{Motivation}
+Write your English motivation text here. Use \texttt{\textbackslash marginlabel\{Section\}} for margin notes. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+\marginlabel{Skills}
+Describe your qualifications and competencies here. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\marginlabel{Opportunity}
+Explain here why you are the ideal candidate for this position. Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+I would appreciate the opportunity to discuss my qualifications in a personal interview.
+
+Best regards,
+}
+% =======================================================================
+
+% =======================================================================
+% INTERNAL CONFIGURATION  —  no edits needed below this line
+% =======================================================================
+\def\LangGer{ger}
+\newcommand{\langGerEn}[2]{\ifx\ApplicationLanguage\LangGer #1\else #2\fi}
+
+\def\docname        {\langGerEn{Bewerbung}{Application}}
+\def\supplementsname{\langGerEn{Anlagen}{Supporting Documents}}
+\def\mydate         {\langGerEn{YOUR\_CITY, der \today}{YOUR\_CITY, \today}}
+\def\AppDate        {\today}
+\def\jobcall        {\langGerEn{Bewerbung als}{Application for the position of}}
+\def\jobref         {\langGerEn{Referenznummer \refID}{Reference-ID \refID}}
+
+\def\curriculumvitaename{\langGerEn{\mbox{Lebenslauf}}{\mbox{Curriculum Vitae}}}
+
+% --- Personal data -----------------------------------------------------
+\def\myname         {YOUR\_FIRSTNAME YOUR\_LASTNAME}
+\def\mydegree       {YOUR\_DEGREE}
+\def\mystreet       {YOUR\_STREET 1}
+\def\mycity         {12345 YOUR\_CITY}
+\def\mystate        {YOUR\_STATE}
+\def\mynation       {\langGerEn{YOUR\_NATION\_DE}{YOUR\_NATION\_EN}}
+\def\myphone        {+00 000 0000000}
+\def\myemail        {your.email@example.com}
+
+\def\mysignature    {Images/Signature.png}
+\def\mydegreesidebar{YOUR\_DEGREE,\newline YOUR\_FIELD}
+\def\myGitHub       {https://github.com/YOUR\_USERNAME}
+\def\myLinkedIn     {https://linkedin.com/in/YOUR\_USERNAME}
+
+\def\signaturepath  {Images/Signature.png}
+\def\profilepath    {Images/Profile.jpg}
+
+\newcommand{\setcolorway}[1]{%
+  \edef\temp{#1}%
+  \def\optblue{blue}\def\optgreen{green}%
+  \ifx\temp\optgreen
+    \colorlet{highlightcolor}{highlightcolorgreen}
+    \colorlet{gradientstart} {gradientstartgreen}
+    \colorlet{gradientend}   {gradientendgreen}
+    \colorlet{sidebgcolor}   {sidebgcolorgreen}
+  \else\ifx\temp\optblue
+    \colorlet{highlightcolor}{highlightcolorblue}
+    \colorlet{gradientstart} {gradientstartblue}
+    \colorlet{gradientend}   {gradientendblue}
+    \colorlet{sidebgcolor}   {sidebgcolorblue}
+  \fi\fi
+}
+\def\bgoptblue{blue}
+\ifx\colorway\bgoptblue
+  \newcommand{\bgpath}{Images/Background_Blue.pdf}
+\else
+  \newcommand{\bgpath}{Images/Background_Green.pdf}
+\fi
+% =======================================================================

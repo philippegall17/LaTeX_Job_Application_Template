@@ -1,0 +1,185 @@
+% COVER / DECKBLATT
+
+% =======================================================================
+% SCALING
+% =======================================================================
+\def\imgscale{60mm}    % image height
+\def\imgxshift{-29mm}  % horizontal offset
+\def\imgyshift{29mm}   % vertical offset
+\def\textTopGap{80mm}
+\def\sigGap{35mm}
+% =======================================================================
+
+% =======================================================================
+% PACKAGES & SETUP
+% =======================================================================
+\documentclass[a4paper,12pt]{article}
+\usepackage[dvipsnames]{xcolor}
+
+% =======================================================================
+% CONFIGURATION
+% =======================================================================
+\input{_ConfigDetails.tex}
+\definecolor{highlightcolorgreen}{RGB}{\highlightcolorgreenRGB}
+\definecolor{gradientstartgreen} {RGB}{\gradientstartgreenRGB}
+\definecolor{gradientendgreen}   {RGB}{\gradientendgreenRGB}
+\definecolor{sidebgcolorgreen}   {RGB}{\sidebgcolorgreenRGB}
+\definecolor{highlightcolorblue}{RGB}{\highlightcolorblueRGB}
+\definecolor{gradientstartblue} {RGB}{\gradientstartblueRGB}
+\definecolor{gradientendblue}   {RGB}{\gradientendblueRGB}
+\definecolor{sidebgcolorblue}   {RGB}{\sidebgcolorblueRGB}
+% =======================================================================
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{etoolbox}
+% Font Choice
+\ifdefstring{\Fonttype}{h}{
+    \usepackage{helvet}
+    \renewcommand{\familydefault}{\sfdefault}
+}{
+    \usepackage{lmodern}
+    \renewcommand{\familydefault}{\sfdefault}
+}
+% Geometry
+\usepackage[a4paper,
+            left=75mm, right=9mm,
+            top=4mm, bottom=5mm,
+            noheadfoot]{geometry}
+% Colors
+\setcolorway{\colorway}
+% Graphics
+\usepackage{tikz}
+\usetikzlibrary{calc, shadows}
+\usepackage{eso-pic}
+\usepackage[most]{tcolorbox}
+\usepackage{array, calc, graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fontawesome5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\pagestyle{empty}
+% Sidebar dimensions
+\newlength{\sideW}   \setlength{\sideW}{71mm}
+\newlength{\sidePad} \setlength{\sidePad}{5mm}
+\newlength{\sideIn}  \setlength{\sideIn}{\sideW - 2\sidePad}
+\newlength{\slabW}   \setlength{\slabW}{22mm}
+\newlength{\svalW}   \setlength{\svalW}{\sideIn-\slabW-3mm}
+% =======================================================================
+
+% =======================================================================
+% MACROS
+% =======================================================================
+\newcommand{\sheading}[1]{%
+  \par\addvspace{15pt}
+  {\bfseries\small\color{white}#1}\par
+  \vspace{-7pt}
+  {\color{white!70!sidebgcolor}\rule{\sideIn}{0.5pt}}\par
+  \vspace{-1pt}
+}
+\newcommand{\srow}[2]{%
+  {\footnotesize\color{white!90!sidebgcolor}#1} &
+  {\footnotesize\color{white}#2}\\
+}
+% =======================================================================
+
+% =======================================================================
+% LEFT SIDEBAR CONTENT
+% =======================================================================
+\newcommand{\renderSidebar}{%
+  \begin{minipage}[t][\paperheight]{\sideW}
+    \hspace{\sidePad}%
+    \begin{minipage}[t]{\sideIn}
+      % --- Circular profile photo with white ring ----------------------
+      \vspace*{1cm}
+      \centering
+      \begin{tikzpicture}
+        \begin{scope}
+          \clip (0,0) circle (27mm);
+          \node[yscale=0.97] at (\imgxshift,\imgyshift) {%
+            \includegraphics[height=\imgscale]{\profilepath}};
+        \end{scope}
+        \draw[white, line width=4pt] (0,0) circle (27mm);
+      \end{tikzpicture}
+      \par\vspace{7mm}
+      % --- Name --------------------------------------------------------
+      \raggedright
+      {\bfseries\color{white}\myname}\par
+      \vspace{4pt}
+      % --- Degree ------------------------------------------------------
+      {\color{white!90!sidebgcolor}%
+        \mydegreesidebar}\par
+      \vspace{8pt}
+      % --- Address -----------------------------------------------------
+      {\color{white}%
+        \mystreet\newline
+        \mycity}\par
+      \vspace{6pt}
+      % --- Phone -------------------------------------------------------
+      {\color{white}\myphone}\par
+      \vspace{3pt}
+      % --- Email -------------------------------------------------------
+      {\color{white}%
+        \href{mailto:\myemail}{\myemail}}\par
+    \end{minipage}
+  \end{minipage}
+}
+% =======================================================================
+
+% =======================================================================
+% BACKGROUND & SIDEBAR
+% =======================================================================
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[opacity=0.7] at (current page.center)
+      {\includegraphics[width=\paperwidth]{\bgpath}};
+    \shade[top color=gradientstart, bottom color=gradientend]
+      (current page.north west)
+      rectangle ([xshift=\sideW]current page.south west);
+    \node [anchor=north west, inner sep=0pt]
+      at (current page.north west) {\renderSidebar};
+  \end{tikzpicture}%
+}
+% =======================================================================
+
+% =======================================================================
+% COVER CONTENT
+% =======================================================================
+\begin{document}
+\noindent
+% --- Icons row (top right) ---------------------------------------------
+\raggedleft
+{\fontsize{18}{22}\selectfont\color{highlightcolor}%
+  \href{mailto:\myemail}{\faEnvelope}%
+  \hspace{5mm}%
+  \href{\myLinkedIn}{\faLinkedin}%
+  \hspace{5mm}%
+  \href{\myGitHub}{\faGithub}%
+}\par
+\vspace{2pt}
+{\color{gray!30}\rule{\linewidth}{0.8pt}}\par
+
+% --- Gap to push heading toward vertical centre -----------------------
+\vspace{\textTopGap}
+
+% --- Application heading ----------------------------------------------
+\raggedright
+{\fontsize{36}{36}\selectfont\color{black!85} \docname}\par
+\vspace{7pt}
+{\fontsize{30}{36}\selectfont\color{gray!65} \jobtitle\par}
+\vspace{4pt}
+{\color{gray!30}\rule{\linewidth}{0.8pt}}\par
+\vspace{7pt}
+{\fontsize{30}{36}\selectfont\color{gray!65} \recipientdept\par}
+
+% --- Signature --------------------------------------------------------
+% Tune \sigGap in SCALING section above.
+\vspace{\sigGap}
+\raggedleft
+\includegraphics[height=1.1cm]{\signaturepath}\\[-1mm]
+{\small\color{gray} \myname}\\
+{\small\color{gray} \AppDate}\par
+
+\end{document}
+% =======================================================================
